@@ -20,11 +20,14 @@ if (isset($_GET['id_article']))
         {
            $idCommande = $panier->create_commande();
         /* @var $idCommande type */
-        $panier->ajouter_article($_GET['id_article'], $idCommande);   
+        $panier->ajouter_article($_GET['id_article'], $idCommande);
         }   
 
     }
-
+if (isset($_GET['valider']))
+    {
+        $panier->mise_a_jour_stock( $_COOKIE['commande_speedymarket']);
+    }
 ?>
        <table>
            <tr>
@@ -44,6 +47,7 @@ if (isset($_GET['id_article']))
     {
         echo $panier->afficher_panier($_COOKIE['commande_speedymarket']);
         echo $panier->afficher_totaux($_COOKIE['commande_speedymarket']);
+         echo $panier->afficher_bouton_valider($_COOKIE['commande_speedymarket']);
     }
 require 'footer.php';
         ?>

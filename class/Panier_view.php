@@ -52,4 +52,15 @@ class Panier_view {
         }
         return $tableau;       
     }
+    
+    public function afficher_bouton_valider($id_commande) 
+    {
+        $bouton_valider =   "
+                            <form method='GET' action=''>
+                                <input type='hidden' value='".$id_commande."'>
+                                <input type='submit' name='valider' value='valider'>   
+                            </form>";
+        return $bouton_valider;    
+    
+    }
 }

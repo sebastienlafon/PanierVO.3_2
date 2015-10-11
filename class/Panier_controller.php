@@ -1,16 +1,24 @@
 <?php
 /**
  * Classe de gestion du panier
- *
+ *permet l'ajout, le retrait et la suppression d'articles (lignes de commandes dans la DB), 
  * @author Sébastien LAFON
  */
 class Panier_controller  {   
 
+    /**
+     *
+     * @var objet de la classe Panier_model
+     */
     private $panier_model;
+    /**
+     *
+     * @var objet de la classe Panier_view 
+     */
     private $panier_view;
     /**
      * insere un produit dans une ligne de commande
-     * @param type int $id_article
+     * @param int $id_article
      */
     public function ajouter_article($idArticle, $idCommande)
     {/*
@@ -42,8 +50,8 @@ class Panier_controller  {
 
     /**
      * 
-     * @param type $idArticle
-     * @param type $idCommande
+     * @param integer identifiant de l'article à retirer
+     * @param integer identifiant de la commande de l'article à retirer
      */       
     public function retirer_article ($idArticle, $idCommande)
     {  
@@ -63,14 +71,18 @@ class Panier_controller  {
         }
     }
 
-            
+    /**
+     * vérification de a présence d'un article
+     * si oui ne retourne rien 
+     * si non il retourne la quantité 
+     * @param integer identifiant de la commande
+     * @param integer identifiant de la commande
+     * @return integer de la quantité commandée pour un article
+     */        
     public function verifier_article($idArticle, $idCommande)
     {   
         $this->panier_model = new Panier_model();
         $result = $this->panier_model->verifier_article($idArticle, $idCommande);       
-        // je stocke dans $article le résultat de la requête
-        // si il retourne null je ne fais rien de pus
-        // sinon je recupere la quantite commandee de cete article
         while ($article = $result->fetch(PDO::FETCH_OBJ)) 
         {
             if ($article===null)
@@ -81,20 +93,14 @@ class Panier_controller  {
             {
                 return $article->qte_cmde;
             }
-//            $article_check   = [$article->id_article];
-//            $quantite_check = [$article->qte_cmde];
-//        } 
-//            if(isset($article_check[0]))
-//        {
-//            return $quantite_check[0];
-//
-//        }
-//            else
-//        {
-//            return NULL;
         }
     }
-
+    /**
+     * 
+     * @param srting selon l'action on supprime, retire ou ajoute l'article
+     * @param integer identifiaaint de l'article
+     * @param integer identifiant de commande
+     */
     public function traiter_article($action, $article, $commande)
     {
         switch ($action) 
@@ -157,21 +163,29 @@ class Panier_controller  {
 
     }
          
-//public function mise_a_jour_stock($idarticle) {
-//              // requete sur la base de données  
-///*récupération du stock pouir l'article sélectionné*/
-//$sql="SELECT a_quantite_stock FROM tb_article WHERE id_article=$idcommande";
-//    $req = $this->db->query($sql);
-//    
-//$sql = "UPDATE tb_article 
-//        SET a_quantite_stock=a_quantite_stock- $resultat->qte_cmde;
-//        WHERE id_article = $idarticle";
-//
-//    $req = $this->db->query($sql);
-//               
-//             
-//         }
+    public function mise_a_jour_stock($id_commande) 
+    {
+        
+        $this->panier_model = new Panier_model();
+        $articles = $this->panier_model->get_articles($id_commande);
+        var_dump($articles->fetchall());
+        foreach ($articles->fetchall() as $article)
+        {
+            $query = $this->panier_model->get_quantite_commandee($id_commande[0][6], $article[0][0]); 
+            $this->panier_model->update_quantite_en_stock($query, $article[0][0]); 
+        }
+       
+    
+    }
 
+    public function afficher_bouton_valider($id_commande)
+    {
+        $this->panier_view = new Panier_view();
+        return $this->panier_view->afficher_bouton_valider($id_commande);
+        
+    }
+
+    
 }
 
 

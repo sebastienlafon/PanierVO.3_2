@@ -1,41 +1,35 @@
 <?php
 require_once ('autoloader.php');
 /**
- * Description of Article
+ * Article_model gère la connexion avec la BD 
  *
  * @author Lafon Sébastien
  */
 class Article_model  extends Database{
-    private $id_article;
-    private $a_designation;
-    private $a_pht;
-   // private $a_quantite_stock;
-   // private $a_visible;
-   // private $url_image;
-   // private $id_tva;
- 
     /**
-     * AfficherArticles : affiche la liste des articles
-     * @param type $param
+     *
+     * @var integer identifiant d'article
      */
-public function get_articles_from_db() 
-    {   // requete sur la base de donnée             
+    private $id_article;
+    /**
+     *
+     * @var string designation d'article
+     */
+    private $a_designation;
+    /**
+     *
+     * @var integer  prix hors taxes
+     */
+    private $a_pht;
+
+    /**
+     * obtient une liste de 5 articles
+     * @return objet de type PDO statement
+     */
+    public function get_articles_from_db() 
+    {   
        $sql = "SELECT * FROM tb_article ORDER BY a_designation ASC LIMIT 5 ";
-       //exécution de la requête (query)
        $req =$this->db->query($sql);
-       // je retourne la requête
        return $req;
-    }
-
-    
-
-
-   
-// boucle d'affichage des articles
-
-
-    
-
-
-       
+    }    
 }

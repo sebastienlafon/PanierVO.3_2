@@ -1,7 +1,7 @@
 <?php
 require_once ('autoloader.php');
 /**
- * Description of Article_controller
+ * Article_controller gère les fonctionnalités lièes aux articles
  *
  * @author Sébastien LAFON
  */

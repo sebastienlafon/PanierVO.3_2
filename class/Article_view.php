@@ -1,12 +1,16 @@
 <?php
 require_once ('autoloader.php');
 /**
- * Description of Article_view
- *
+ * gére l'affichage de la vue liste des articles
  * @author Sébastien LAFON
  */
 class Article_view {
-    
+/**
+ * affiche une liste de 5 articles 
+ * classés par ordre alphabétique de désignation
+ * @param string liste d'articles 
+ * @return string tableau html avec la liste des articles
+ */    
 public function afficher_articles($liste_articles) 
     {
        $html = "<table>";        // note : fetch(PDO::FETCH_OBJ) permet de renvoyer une association de type objet
