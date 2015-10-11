@@ -1,0 +1,16 @@
+Création requête pour créer une commande avec un timestamp
+
+$bdd->query('INSERT INTO `db_speedymarket`.`tb_commande` (`id_commande`, `c_date`, `c_dateretrait`, `id_statut`, `client_id_pers`, `prepa_id_pers`) 
+VALUES ("NULL", CURRENT_TIMESTAMP, NULL, 1, NULL, NULL)');
+
+
+Requête qui sert à récupérer le dernier ID 
+ entré dans a base de données sur la table tb_commande*/
+$reponse = $bdd->query('SELECT MAX(id_commande) AS lastIdCommande FROM tb_commande');
+
+while ($donnees = $reponse->fetch())
+{
+	echo $donnees['lastIdCommande'] . '<br />';
+}
+
+$reponse->closeCursor();
