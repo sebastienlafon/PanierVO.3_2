@@ -1,46 +1,50 @@
 <?php
+/*@author - Sébastien LAFON*/
 require ('autoloader.php');
-$art = new Article();
-$panier = new Panier();
+require ('header.php');
 
-if (isset($_GET['id_article'])) {
+$article_controller = new Article_controller();
+$liste = $article_controller->creer_liste_articles();
+
+$panier = new Panier_controller();
+
+if (isset($_GET['id_article'])) 
+    {
          //  - si il ya déjà une commande de crée  (cookie commande présent)
-        if(isset($_COOKIE['commande'])){
-            
-            $panier->Traiter_article($_GET['action'], $_GET['id_article'], $_COOKIE['commande']);
-            
-            }
-       // - sinon on crée une nouvelle commande et un cookie commande
-        else {
-           $idCommande = $panier->Creer_commande();
-           $panier->Ajouter_Article($_GET['id_article'], $idCommande);
-
+        if(isset($_COOKIE['commande_speedymarket']))
+        {
+            $panier->traiter_article($_GET['action'], $_GET['id_article'], $_COOKIE['commande_speedymarket']);
+        }
+        // - sinon on crée une nouvelle commande et un cookie commande
+        else 
+        {
+           $idCommande = $panier->create_commande();
+        /* @var $idCommande type */
+        $panier->ajouter_article($_GET['id_article'], $idCommande);   
         }   
 
-}
+    }
 
-
-
-require 'header.php';
 ?>
        <table>
-           
            <tr>
                <th>LISTE DES PRODUITS</th>
            </tr>
            <tr>
-               <td><?= $art->Afficher_les_articles();?></td>
+               <td><?php echo $liste;
+               ?></td>
            </tr>
         </table>
 <br /><br /><br /><br />
 
  <?php
 //$panier->Creer_commande();
-//echo  $art->Afficher_les_articles();
- if(isset($_COOKIE['commande'])){
-     var_dump($_COOKIE['commande']);
-        echo $panier->Afficher_Panier($_COOKIE['commande']);
- }
+//echo  $art->Afficher_les_articles(); 
+ if(isset($_COOKIE['commande_speedymarket']))
+    {
+        echo $panier->afficher_panier($_COOKIE['commande_speedymarket']);
+        echo $panier->afficher_totaux($_COOKIE['commande_speedymarket']);
+    }
 require 'footer.php';
         ?>
 
