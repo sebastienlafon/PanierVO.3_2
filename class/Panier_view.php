@@ -57,8 +57,8 @@ class Panier_view {
     {
         $bouton_valider =   "
                             <form method='GET' action=''>
-                                <input type='hidden' value='".$id_commande."'>
-                                <input type='submit' name='valider' value='valider'>   
+                                <input type='hidden' name='valider' value='".$id_commande."'>
+                                <input type='submit' value='valider'>   
                             </form>";
         return $bouton_valider;    
     

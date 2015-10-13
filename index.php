@@ -20,13 +20,15 @@ if (isset($_GET['id_article']))
         {
            $idCommande = $panier->create_commande();
         /* @var $idCommande type */
-        $panier->ajouter_article($_GET['id_article'], $idCommande);
+        $panier->ajouter_article($_GET['id_article'], $id_commande);
         }   
 
     }
 if (isset($_GET['valider']))
     {
-        $panier->mise_a_jour_stock( $_COOKIE['commande_speedymarket']);
+        $id_commande = $_COOKIE['commande_speedymarket'];
+        $quantitecommandee = $panier->get_quantite_commande($quantitecommandee);
+        $panier->mise_a_jour_stock($idCommande, $quantitecommandee);
     }
 ?>
        <table>
@@ -44,10 +46,11 @@ if (isset($_GET['valider']))
 //$panier->Creer_commande();
 //echo  $art->Afficher_les_articles(); 
  if(isset($_COOKIE['commande_speedymarket']))
+     
     {
         echo $panier->afficher_panier($_COOKIE['commande_speedymarket']);
         echo $panier->afficher_totaux($_COOKIE['commande_speedymarket']);
-         echo $panier->afficher_bouton_valider($_COOKIE['commande_speedymarket']);
+        echo $panier->afficher_bouton_valider($_COOKIE['commande_speedymarket']);
     }
 require 'footer.php';
         ?>

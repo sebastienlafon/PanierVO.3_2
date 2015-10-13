@@ -109,14 +109,13 @@ class Panier_model extends Database{
         return $this->db->query($sql); 
     }
 
-    public function update_quantite_en_stock($query, $id_article) 
+    public function update_quantite_en_stock($quantitecommandee, $id_article) 
     {
-        $requete = $query->fetchall();
-        var_dump($requete);
+        var_dump($quantitecommandee);
         $sql = "UPDATE tb_article 
-                SET a_quantite_stock=a_quantite_stock - $query->qte_cmde;
+                SET a_quantite_stock=a_quantite_stock - $quantitecommandee;
                 WHERE id_article = $id_article";
 
-        $this->db->query($sql);    
+        return $this->db->query($sql);    
     }
 }

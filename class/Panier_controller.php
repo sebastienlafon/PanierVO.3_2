@@ -162,20 +162,23 @@ class Panier_controller  {
         
 
     }
-         
-    public function mise_a_jour_stock($id_commande) 
+    
+    public function get_quantite_commande($quantitecommandee) 
     {
-        
+        $this->panier_model = new Panier_model;
+        $quantitecommandee = $this->get_quantite_commande($quantitecommandee);
+    }
+         
+    public function mise_a_jour_stock($id_commande, $quantitecommandee) 
+    {
         $this->panier_model = new Panier_model();
         $articles = $this->panier_model->get_articles($id_commande);
         var_dump($articles->fetchall());
         foreach ($articles->fetchall() as $article)
         {
-            $query = $this->panier_model->get_quantite_commandee($id_commande[0][6], $article[0][0]); 
-            $this->panier_model->update_quantite_en_stock($query, $article[0][0]); 
+            $quantitecommandee = $this->panier_model->get_quantite_commandee($id_commande[0][6], $article[0][0]); 
+            $this->panier_model->update_quantite_en_stock($quantitecommandee, $article[0][0]); 
         }
-       
-    
     }
 
     public function afficher_bouton_valider($id_commande)
